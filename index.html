@@ -5,818 +5,640 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#070708">
-<meta name="description" content="CASTER — The next generation Web3 experience on BNB Smart Chain. Explore the ecosystem, token data and decentralized trading.">
-<title>CASTER | The Next Generation of Web3</title>
+<meta name="description" content="CASTER — Next Generation Web3 on BNB Smart Chain">
+<title>CASTER | The Future of Web3</title>
+
 <link rel="icon" href="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js" defer></script>
 
 <style>
 :root{
-  --bg:#070708;
-  --bg2:#0d0c0f;
-  --card:#131216;
-  --card2:#19171c;
-  --red:#ff203c;
-  --red2:#ae122c;
-  --text:#f6f5f7;
-  --muted:#9995a1;
-  --line:rgba(255,255,255,.09);
-  --green:#54dfa2;
-  --radius:22px;
+ --bg:#050506;
+ --bg2:#0c0b0e;
+ --card:#131115;
+ --red:#ff203c;
+ --red2:#b60929;
+ --text:#fff;
+ --muted:#a19aa5;
+ --line:rgba(255,255,255,.09);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:"DM Sans",sans-serif;
-  overflow-x:hidden;
+ margin:0;
+ font-family:Inter,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ overflow-x:hidden;
 }
 body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  background:
-   radial-gradient(ellipse at 80% 12%,rgba(255,24,57,.09),transparent 38%),
-   radial-gradient(ellipse at 8% 67%,rgba(153,0,30,.055),transparent 40%);
+ content:"";
+ position:fixed;
+ inset:0;
+ z-index:-1;
+ pointer-events:none;
+ background:
+ radial-gradient(circle at 85% 15%,rgba(255,0,50,.11),transparent 35%),
+ radial-gradient(circle at 10% 80%,rgba(255,0,50,.05),transparent 40%);
 }
-button,input{font:inherit}
-button{cursor:pointer}
 a{text-decoration:none;color:inherit}
-button:focus-visible,a:focus-visible,input:focus-visible{
-  outline:2px solid var(--red);
-  outline-offset:4px;
+button{font:inherit;cursor:pointer}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif}
+.container{width:min(1200px,calc(100% - 40px));margin:auto}
+.red{color:var(--red)}
+.muted{color:var(--muted)}
+.section{padding:95px 0}
+.section-title{text-align:center;max-width:720px;margin:0 auto 45px}
+.section-title h2{
+ font-size:clamp(34px,5vw,55px);
+ letter-spacing:-2px;
+ margin:15px 0;
 }
-h1,h2,h3,h4,p{margin-top:0}
-h1,h2,h3,h4{font-family:"Space Grotesk",sans-serif}
-.container{
-  width:min(1200px,calc(100% - 48px));
-  margin:auto;
+.section-title p{color:var(--muted);line-height:1.8}
+.eyebrow{
+ color:#ff6377;
+ font-size:11px;
+ letter-spacing:3px;
+ font-weight:800;
+ text-transform:uppercase;
 }
-::-webkit-scrollbar{width:7px}
-::-webkit-scrollbar-track{background:#09090a}
-::-webkit-scrollbar-thumb{background:#701326;border-radius:9px}
-::selection{background:var(--red);color:#fff}
-
 .btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  border:1px solid transparent;
-  border-radius:13px;
-  min-height:47px;
-  padding:12px 20px;
-  font-weight:800;
-  color:white;
-  transition:.25s;
-  white-space:nowrap;
+ border:1px solid transparent;
+ border-radius:12px;
+ padding:14px 22px;
+ font-weight:800;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:10px;
+ transition:.25s;
+ color:#fff;
+ background:transparent;
 }
 .btn:hover{transform:translateY(-3px)}
-.btn-primary{
-  background:linear-gradient(130deg,#ff354d,#bf0929);
-  box-shadow:0 8px 30px rgba(255,32,60,.2);
+.btn-red{
+ background:linear-gradient(135deg,#ff334d,#b90729);
+ box-shadow:0 10px 35px rgba(255,0,55,.25);
 }
-.btn-primary:hover{box-shadow:0 10px 42px rgba(255,32,60,.4)}
-.btn-outline{
-  background:rgba(255,255,255,.025);
-  border-color:rgba(255,255,255,.15);
+.btn-red:hover{box-shadow:0 10px 45px rgba(255,0,55,.45)}
+.btn-dark{border-color:rgba(255,255,255,.17);background:#171418}
+.btn-dark:hover{border-color:var(--red)}
+.card{
+ background:linear-gradient(145deg,#19151a,#0d0b0e);
+ border:1px solid var(--line);
+ border-radius:22px;
+ padding:27px;
+ transition:.3s;
 }
-.btn-outline:hover{border-color:var(--red)}
-.btn-sm{min-height:39px;padding:9px 14px;font-size:13px}
-.tag{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  border:1px solid rgba(255,43,71,.28);
-  color:#ff6679;
-  background:rgba(255,32,60,.065);
-  border-radius:40px;
-  padding:9px 15px;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-weight:800;
-}
-.dot{
-  height:7px;width:7px;
-  border-radius:50%;
-  background:var(--red);
-  box-shadow:0 0 16px var(--red);
-}
-.section{padding:100px 0}
-.section-head{
-  max-width:690px;
-  margin-bottom:42px;
-}
-.section-head.center{
-  margin-left:auto;margin-right:auto;text-align:center;
-}
-.section-head h2{
-  font-size:clamp(32px,4.5vw,54px);
-  letter-spacing:-2px;
-  line-height:1.12;
-  margin:20px 0;
-}
-.section-head p{
-  color:var(--muted);
-  line-height:1.85;
-  font-size:15px;
-}
-.accent{color:var(--red)}
+.card:hover{border-color:rgba(255,32,60,.4)}
 .grid{display:grid;gap:20px}
-.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.panel{
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  background:linear-gradient(145deg,rgba(28,25,30,.88),rgba(12,11,14,.93));
-  padding:26px;
-  position:relative;
-  overflow:hidden;
-}
-.panel:before{
-  content:"";position:absolute;
-  inset:0 0 auto 0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
-}
-.panel.hover{transition:transform .3s,border-color .3s}
-.panel.hover:hover{
-  transform:translateY(-6px);
-  border-color:rgba(255,32,60,.4);
-}
-.muted{color:var(--muted)}
-.small{font-size:12px}
-.mono{font-family:monospace}
-.red-glow{text-shadow:0 0 35px rgba(255,30,59,.36)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
 
-/* HEADER */
+/* NAVBAR */
 header{
-  height:78px;
-  position:fixed;
-  inset:0 0 auto;
-  z-index:100;
-  background:rgba(7,7,8,.86);
-  backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--line);
+ position:fixed;
+ top:0;left:0;right:0;
+ height:80px;
+ z-index:100;
+ background:rgba(5,5,6,.88);
+ backdrop-filter:blur(20px);
+ border-bottom:1px solid var(--line);
 }
 .nav{
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
+ height:100%;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:25px;
 }
-.brand{display:flex;align-items:center;gap:12px;min-width:0}
-.brand img{
-  width:43px;height:43px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 13px rgba(255,30,60,.4));
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-wrap img{
+ width:49px;
+ height:49px;
+ object-fit:contain;
+ filter:drop-shadow(0 0 10px rgba(255,0,55,.35));
 }
-.brand strong{
-  font-family:"Space Grotesk",sans-serif;
-  font-size:24px;
-  letter-spacing:2px;
+.logo-wrap strong{
+ font-size:25px;
+ font-family:"Space Grotesk";
+ letter-spacing:2px;
 }
-.brand strong span{color:var(--red)}
-.nav-links{display:flex;align-items:center;gap:29px}
+.logo-wrap strong span{color:var(--red)}
+.nav-links{display:flex;gap:26px;align-items:center}
 .nav-links a{
-  color:#aaa6b0;
-  font-size:13px;
-  font-weight:700;
-  transition:.2s;
+ font-size:13px;
+ font-weight:700;
+ color:#aaa4ad;
+ transition:.2s;
 }
 .nav-links a:hover{color:#fff}
-.nav-actions{display:flex;align-items:center;gap:10px}
-.menu-btn{
-  display:none;
-  background:transparent;
-  border:1px solid var(--line);
-  border-radius:11px;
-  color:#fff;
-  font-size:23px;
-  padding:5px 12px;
+.nav-right{display:flex;gap:10px;align-items:center}
+.nav-right .btn{font-size:12px;padding:11px 16px}
+.menu-toggle{
+ display:none;
+ background:#151216;
+ color:#fff;
+ border:1px solid var(--line);
+ border-radius:10px;
+ padding:8px 12px;
+ font-size:22px;
 }
 
 /* HERO */
 .hero{
-  min-height:820px;
-  display:flex;
-  align-items:center;
-  position:relative;
-  padding:145px 0 100px;
-  overflow:hidden;
+ min-height:790px;
+ display:flex;
+ align-items:center;
+ padding:140px 0 85px;
+ position:relative;
+ overflow:hidden;
 }
-.hero:before{
-  content:"";
-  position:absolute;
-  width:680px;height:680px;
-  background:radial-gradient(circle,rgba(230,16,48,.12),transparent 67%);
-  right:-100px;top:80px;
-  pointer-events:none;
+.hero:after{
+ content:"";
+ position:absolute;
+ width:600px;height:600px;
+ right:-120px;top:100px;
+ border-radius:50%;
+ background:radial-gradient(circle,rgba(255,20,50,.13),transparent 65%);
+ pointer-events:none;
 }
 .hero-grid{
-  display:grid;
-  grid-template-columns:1.04fr .96fr;
-  align-items:center;
-  gap:20px;
+ display:grid;
+ grid-template-columns:1.05fr .95fr;
+ gap:35px;
+ align-items:center;
 }
-.hero-content{position:relative;z-index:3}
+.hero-content{position:relative;z-index:2}
+.hero-badge{
+ display:inline-flex;
+ align-items:center;
+ gap:10px;
+ color:#ff7385;
+ background:rgba(255,30,60,.08);
+ border:1px solid rgba(255,30,60,.3);
+ padding:10px 15px;
+ border-radius:30px;
+ font-size:11px;
+ font-weight:800;
+ letter-spacing:1.5px;
+}
+.hero-badge:before{
+ content:"";
+ width:7px;height:7px;
+ background:var(--red);
+ border-radius:50%;
+ box-shadow:0 0 12px var(--red);
+}
 .hero h1{
-  font-size:clamp(51px,6.3vw,90px);
-  line-height:1.035;
-  letter-spacing:-5px;
-  margin:25px 0;
+ font-size:clamp(54px,7vw,94px);
+ letter-spacing:-5px;
+ line-height:1.02;
+ margin:27px 0;
 }
 .hero h1 span{
-  background:linear-gradient(100deg,#ff4259,#b9092a);
-  background-clip:text;
-  -webkit-background-clip:text;
-  color:transparent;
+ background:linear-gradient(100deg,#ff445c,#b90027);
+ background-clip:text;
+ -webkit-background-clip:text;
+ color:transparent;
 }
-.hero-desc{
-  color:#aaa6af;
-  font-size:16px;
-  line-height:1.95;
-  max-width:535px;
+.hero p{
+ color:#aaa4ad;
+ font-size:16px;
+ line-height:1.9;
+ max-width:540px;
 }
-.hero-btns{
-  display:flex;gap:13px;
-  flex-wrap:wrap;
-  margin-top:32px;
+.hero-buttons{display:flex;gap:13px;flex-wrap:wrap;margin-top:32px}
+.hero-stats{
+ display:flex;
+ gap:35px;
+ margin-top:55px;
+ flex-wrap:wrap;
 }
-.hero-trust{
-  margin-top:54px;
-  display:flex;gap:29px;flex-wrap:wrap;
-}
-.hero-trust div{
-  border-left:2px solid #8b1b31;
-  padding-left:15px;
-}
-.hero-trust strong{
-  display:block;
-  font-size:19px;
-  font-family:"Space Grotesk";
-}
-.hero-trust span{
-  color:var(--muted);
-  font-size:11px;
-}
+.hero-stats div{border-left:2px solid var(--red);padding-left:15px}
+.hero-stats strong{display:block;font-size:20px}
+.hero-stats span{font-size:11px;color:var(--muted)}
 
 /* 3D COIN */
 .coin-scene{
-  height:550px;
-  position:relative;
-  display:grid;
-  place-items:center;
-  perspective:1100px;
-  isolation:isolate;
+ height:550px;
+ position:relative;
+ display:grid;
+ place-items:center;
+ perspective:1000px;
 }
-.coin-scene:before{
-  content:"";
-  position:absolute;
-  width:min(95%,510px);
-  aspect-ratio:1;
-  border:1px solid rgba(255,35,64,.14);
-  border-radius:50%;
-  box-shadow:
-   0 0 0 45px rgba(255,32,60,.018),
-   0 0 0 95px rgba(255,32,60,.012);
+.coin-orbit{
+ position:absolute;
+ width:90%;
+ max-width:500px;
+ aspect-ratio:1;
+ border:1px dashed rgba(255,32,60,.22);
+ border-radius:50%;
+ animation:spin 35s linear infinite;
 }
-.orbit{
-  position:absolute;
-  width:90%;max-width:510px;
-  aspect-ratio:1;
-  border:1px dashed rgba(255,40,69,.24);
-  border-radius:50%;
-  transform:rotateX(65deg) rotateZ(-25deg);
-  animation:orbit 24s linear infinite;
+.coin-orbit.second{
+ width:72%;
+ border-color:rgba(255,255,255,.13);
+ animation-duration:22s;
+ animation-direction:reverse;
 }
-.orbit.two{
-  width:75%;
-  border-color:rgba(255,255,255,.11);
-  transform:rotateY(65deg) rotateZ(45deg);
-  animation-duration:32s;
-  animation-direction:reverse;
+@keyframes spin{to{transform:rotate(360deg)}}
+.coin{
+ width:min(75%,350px);
+ aspect-ratio:1;
+ position:relative;
+ transform-style:preserve-3d;
+ animation:floatCoin 7s ease-in-out infinite;
 }
-@keyframes orbit{to{rotate:360deg}}
-.coin-shadow{
-  position:absolute;
-  width:270px;height:70px;
-  background:#ff203c;
-  filter:blur(90px);
-  opacity:.45;
-  bottom:62px;
-  border-radius:50%;
-}
-.coin-float{
-  width:min(75%,350px);
-  aspect-ratio:1;
-  position:relative;
-  transform-style:preserve-3d;
-  animation:coinFloat 7s ease-in-out infinite;
-}
-@keyframes coinFloat{
-  0%,100%{transform:translateY(0) rotateY(-20deg) rotateX(8deg)}
-  50%{transform:translateY(-28px) rotateY(28deg) rotateX(-6deg)}
-}
-.coin-edge{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  background:repeating-linear-gradient(
-    180deg,#5c0d1b 0px,#fc2b48 2px,#280910 5px
-  );
-  transform:translateZ(-14px);
-  box-shadow:0 0 80px rgba(255,25,55,.45);
+@keyframes floatCoin{
+ 0%,100%{transform:translateY(0) rotateY(-20deg) rotateX(8deg)}
+ 50%{transform:translateY(-25px) rotateY(25deg) rotateX(-5deg)}
 }
 .coin-face{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 25%,#381820,#110e12 64%,#050506);
-  border:8px solid #cd223d;
-  box-shadow:
-    inset 0 0 0 7px #250b13,
-    inset 0 0 55px rgba(255,32,60,.17),
-    0 0 25px rgba(255,32,60,.5),
-    20px 28px 65px rgba(0,0,0,.6);
-  transform:translateZ(15px);
-}
-.coin-face:before{
-  content:"";position:absolute;
-  inset:11px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.14);
+ position:absolute;
+ inset:0;
+ border-radius:50%;
+ background:radial-gradient(circle at 35% 25%,#3d1520,#100d11 65%);
+ border:8px solid #c91b3b;
+ box-shadow:
+ inset 0 0 0 8px #280b14,
+ inset 0 0 50px rgba(255,0,55,.25),
+ 0 0 50px rgba(255,0,55,.3),
+ 25px 30px 60px rgba(0,0,0,.7);
+ display:grid;
+ place-items:center;
 }
 .coin-face img{
-  width:79%;height:79%;
-  object-fit:contain;
-  filter:drop-shadow(0 0 23px rgba(255,30,56,.3));
+ width:78%;
+ height:78%;
+ object-fit:contain;
+ filter:drop-shadow(0 0 20px rgba(255,0,50,.35));
 }
-.float-pill{
-  position:absolute;
-  z-index:5;
-  background:rgba(20,18,23,.85);
-  border:1px solid rgba(255,255,255,.11);
-  border-radius:13px;
-  backdrop-filter:blur(20px);
-  padding:14px 17px;
-  box-shadow:0 15px 45px #0007;
-  animation:pillFloat 5s ease-in-out infinite;
+.coin-glow{
+ position:absolute;
+ bottom:40px;
+ width:270px;
+ height:70px;
+ border-radius:50%;
+ background:var(--red);
+ filter:blur(85px);
+ opacity:.4;
 }
-.float-pill strong{display:block;font-size:13px}
-.float-pill span{font-size:11px;color:var(--muted)}
-.float-pill.top{top:80px;right:0}
-.float-pill.bottom{left:0;bottom:95px;animation-delay:-2s}
-@keyframes pillFloat{
-  50%{transform:translateY(-13px)}
+.floating-label{
+ position:absolute;
+ padding:14px 18px;
+ background:rgba(22,18,23,.85);
+ border:1px solid rgba(255,255,255,.12);
+ backdrop-filter:blur(18px);
+ border-radius:13px;
+ box-shadow:0 15px 35px #0008;
+ animation:floatLabel 5s ease-in-out infinite;
 }
-.particle{
-  position:absolute;
-  width:3px;height:3px;
-  background:#ff334f;
-  border-radius:50%;
-  box-shadow:0 0 12px #ff2946;
-  animation:spark 5s infinite ease-in-out;
-}
-@keyframes spark{
-  50%{transform:translateY(-35px);opacity:.2}
-}
+.floating-label strong{display:block;font-size:13px}
+.floating-label small{color:var(--muted);font-size:11px}
+.floating-label.top{top:75px;right:0}
+.floating-label.bottom{bottom:90px;left:0;animation-delay:-2s}
+@keyframes floatLabel{50%{transform:translateY(-12px)}}
 
 /* TICKER */
-.ticker-wrap{
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  background:#0f0d10;
-  overflow:hidden;
-}
 .ticker{
-  display:flex;
-  width:max-content;
-  gap:48px;
-  padding:17px 0;
-  animation:tickerMove 35s linear infinite;
+ background:#100c10;
+ border-top:1px solid var(--line);
+ border-bottom:1px solid var(--line);
+ padding:20px 0;
+ overflow:hidden;
+ white-space:nowrap;
+}
+.ticker-inner{
+ display:flex;
+ gap:60px;
+ width:max-content;
+ animation:marquee 30s linear infinite;
 }
 .ticker span{
-  white-space:nowrap;
-  color:#bbb6c0;
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:2px;
+ color:#b8afb9;
+ font-size:12px;
+ font-weight:800;
+ letter-spacing:2px;
 }
-.ticker b{color:var(--red);margin-right:15px}
-@keyframes tickerMove{to{transform:translateX(-50%)}}
+.ticker b{color:var(--red);margin-right:12px}
+@keyframes marquee{to{transform:translateX(-50%)}}
 
 /* DASHBOARD */
-.stat-card{min-height:150px}
-.stat-card .label{
-  color:#a6a0ab;
-  font-size:12px;
-  display:flex;
-  justify-content:space-between;
+.stat-label{color:var(--muted);font-size:12px}
+.stat-value{
+ font-family:"Space Grotesk";
+ font-size:clamp(22px,2.5vw,32px);
+ font-weight:700;
+ margin:22px 0 10px;
+ overflow-wrap:anywhere;
 }
-.stat-card .value{
-  font-size:clamp(20px,2.4vw,31px);
-  font-family:"Space Grotesk";
-  font-weight:700;
-  margin:25px 0 8px;
-  overflow-wrap:anywhere;
+.stat-sub{color:#79717e;font-size:11px}
+.dashboard-grid{
+ display:grid;
+ grid-template-columns:1.65fr 1fr;
+ gap:20px;
+ margin-top:20px;
 }
-.stat-card .sub{font-size:11px;color:#77727f}
-.live-indicator{
-  font-size:10px;
-  color:var(--green);
-}
-.dashboard-main{
-  display:grid;
-  grid-template-columns:1.7fr 1fr;
-  gap:20px;
-  margin-top:20px;
-}
-.chart-box{min-height:410px}
-.chart-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-bottom:22px;
-}
-.chart-header h3{margin:0;font-size:19px}
 .chart-frame{
-  width:100%;height:335px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  overflow:hidden;
-  background:#09090b;
-  position:relative;
+ width:100%;
+ height:340px;
+ border-radius:14px;
+ overflow:hidden;
+ background:#080709;
+ border:1px solid var(--line);
+ display:grid;
+ place-items:center;
 }
-.chart-frame iframe{
-  width:100%;height:100%;border:0;
+.chart-frame iframe{width:100%;height:100%;border:0}
+.chart-placeholder{text-align:center;color:var(--muted);padding:20px}
+.chart-placeholder h3{color:#fff}
+.contract-address{
+ font-family:monospace;
+ font-size:12px;
+ overflow-wrap:anywhere;
+ background:#09080b;
+ border:1px solid var(--line);
+ padding:16px;
+ border-radius:12px;
+ margin:20px 0;
+ line-height:1.9;
 }
-.chart-empty{
-  position:absolute;inset:0;
-  display:flex;align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  padding:25px;
-  background:radial-gradient(circle,#221017,#09090b 72%);
+.info-line{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ padding:14px 0;
+ border-bottom:1px solid var(--line);
+ font-size:13px;
 }
-.chart-empty h4{font-size:21px;margin:15px 0 5px}
-.chart-empty p{
-  color:var(--muted);font-size:13px;
-  max-width:330px;line-height:1.7;
-}
-.contract-box{
-  overflow-wrap:anywhere;
-  font:13px/1.9 monospace;
-  padding:15px;
-  background:#0a090c;
-  border-radius:12px;
-  border:1px solid var(--line);
-  margin:16px 0;
-}
-.chain-line{
-  display:flex;align-items:center;
-  justify-content:space-between;
-  padding:14px 0;
-  border-bottom:1px solid var(--line);
-  font-size:13px;
-}
-.chain-line:last-child{border:0}
-.chain-line span{color:var(--muted)}
-.chain-line b{font-size:12px}
-.quick-actions{
-  display:flex;gap:8px;
-  flex-wrap:wrap;margin-top:20px;
-}
+.info-line span{color:var(--muted)}
+.info-line b{font-size:12px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.actions .btn{font-size:12px;padding:11px 13px}
 
-/* FEATURE CARDS */
+/* FEATURES */
 .feature-icon{
-  width:54px;height:54px;
-  display:grid;place-items:center;
-  font-size:24px;
-  border-radius:15px;
-  background:linear-gradient(140deg,rgba(255,32,60,.2),rgba(255,32,60,.04));
-  border:1px solid rgba(255,32,60,.2);
-  margin-bottom:25px;
+ width:55px;height:55px;
+ border-radius:15px;
+ display:grid;
+ place-items:center;
+ background:rgba(255,32,60,.1);
+ border:1px solid rgba(255,32,60,.2);
+ color:var(--red);
+ font-size:26px;
+ margin-bottom:24px;
 }
-.feature-card h3{font-size:19px;margin-bottom:13px}
-.feature-card p{
-  color:var(--muted);font-size:13px;
-  line-height:1.9;margin:0;
-}
+.feature-card h3{font-size:19px}
+.feature-card p{font-size:13px;line-height:1.9;color:var(--muted)}
 
 /* ECOSYSTEM */
-.ecosystem{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
+.ecosystem-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:20px;
 }
 .eco-large{
-  min-height:390px;
-  background:
-   radial-gradient(circle at 75% 76%,rgba(226,15,48,.19),transparent 48%),
-   linear-gradient(145deg,#191216,#0b0a0c);
+ min-height:370px;
+ position:relative;
+ overflow:hidden;
+ background:
+ radial-gradient(circle at 80% 85%,rgba(255,0,50,.18),transparent 50%),
+ #140f13;
 }
-.eco-large .eco-content{position:relative;z-index:2;max-width:400px}
-.eco-large h3{font-size:33px;letter-spacing:-1px}
-.eco-large p{line-height:1.85;color:var(--muted)}
-.eco-logo{
-  width:210px;
-  position:absolute;right:-20px;bottom:-45px;
-  opacity:.22;
-  transform:rotate(-20deg);
-  filter:drop-shadow(0 0 30px red);
+.eco-large h3{font-size:33px;max-width:400px}
+.eco-large p{max-width:390px;color:var(--muted);line-height:1.85}
+.eco-large .background-logo{
+ position:absolute;
+ right:-30px;
+ bottom:-40px;
+ width:230px;
+ opacity:.17;
+ transform:rotate(-20deg);
+ pointer-events:none;
 }
 .eco-stack{display:grid;gap:20px}
-.eco-small{min-height:185px}
-.eco-small h3{font-size:21px}
-.eco-small p{font-size:13px;color:var(--muted);line-height:1.8}
+.eco-stack .card{min-height:175px}
+.eco-stack h3{font-size:21px}
+.eco-stack p{color:var(--muted);font-size:13px;line-height:1.8}
 
 /* TOKENOMICS */
 .token-grid{
-  display:grid;
-  grid-template-columns:.9fr 1.1fr;
-  align-items:center;
-  gap:50px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:65px;
+ align-items:center;
 }
-.token-ring{
-  width:min(100%,345px);
-  margin:auto;
-  aspect-ratio:1;
-  border-radius:50%;
-  background:conic-gradient(
-    #ff203c 0 25%,
-    #c01635 25% 50%,
-    #8b142e 50% 75%,
-    #5d1427 75% 100%
-  );
-  display:grid;place-items:center;
-  box-shadow:0 0 85px rgba(240,20,52,.12);
+.token-circle{
+ width:min(100%,340px);
+ aspect-ratio:1;
+ border-radius:50%;
+ background:conic-gradient(#ff203c 0 25%,#c01635 25% 50%,#8b142e 50% 75%,#5d1427 75% 100%);
+ display:grid;
+ place-items:center;
+ margin:auto;
+ box-shadow:0 0 80px rgba(255,0,50,.13);
 }
-.token-ring:before{
-  content:"";
-  position:absolute;
+.token-inner{
+ width:73%;height:73%;
+ border-radius:50%;
+ background:#0d0b0f;
+ border:8px solid #1b1118;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
 }
-.token-ring-inner{
-  width:73%;height:73%;
-  border-radius:50%;
-  background:#0d0b0f;
-  display:flex;align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  border:8px solid #171016;
-}
-.token-ring-inner img{width:68px;height:68px;object-fit:contain}
-.token-ring-inner strong{font-size:27px;margin-top:8px}
-.token-ring-inner span{font-size:12px;color:var(--muted)}
+.token-inner img{width:70px;height:70px;object-fit:contain}
+.token-inner strong{font-size:27px;margin-top:10px}
+.token-inner small{color:var(--muted);font-size:11px}
 .token-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:18px 0;border-bottom:1px solid var(--line);
-  gap:15px;
+ display:flex;
+ justify-content:space-between;
+ gap:20px;
+ border-bottom:1px solid var(--line);
+ padding:18px 0;
+ font-size:13px;
 }
-.token-row span{color:var(--muted);font-size:13px}
-.token-row b{font-size:14px;overflow-wrap:anywhere;text-align:right}
-.token-note{color:#77717c;font-size:12px;line-height:1.75;margin-top:16px}
+.token-row span{color:var(--muted)}
+.token-row b{text-align:right;overflow-wrap:anywhere}
 
 /* ROADMAP */
-.roadmap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.phase{padding-top:34px;min-height:260px}
-.phase:after{
-  content:"";
-  position:absolute;
-  left:25px;top:0;
-  width:3px;height:26px;
-  background:var(--red);
-  box-shadow:0 0 20px var(--red);
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.phase{min-height:265px;position:relative;padding-top:35px}
+.phase:before{
+ content:"";
+ position:absolute;
+ left:27px;top:0;
+ width:3px;height:27px;
+ background:var(--red);
+ box-shadow:0 0 15px var(--red);
 }
-.phase-num{color:var(--red);font-size:11px;font-weight:900;letter-spacing:2px}
-.phase h3{font-size:21px;margin:12px 0}
-.phase p{color:var(--muted);font-size:13px;line-height:1.8}
-.phase-status{
-  display:inline-block;
-  margin-top:16px;
-  border:1px solid rgba(255,32,60,.24);
-  background:rgba(255,32,60,.07);
-  padding:7px 11px;
-  border-radius:30px;
-  color:#ff8290;
-  font-size:10px;font-weight:800;
-}
+.phase small{color:var(--red);letter-spacing:2px;font-weight:800}
+.phase h3{font-size:22px}
+.phase p{font-size:13px;color:var(--muted);line-height:1.8}
 
 /* SWAP */
-.swap-section{
-  background:linear-gradient(180deg,transparent,rgba(140,10,33,.07),transparent);
-}
 .swap-layout{
-  display:grid;
-  grid-template-columns:1fr 450px;
-  align-items:center;gap:70px;
+ display:grid;
+ grid-template-columns:1fr 440px;
+ gap:65px;
+ align-items:center;
 }
-.swap-layout h2{font-size:clamp(34px,5vw,59px);letter-spacing:-2px}
+.swap-layout h2{font-size:clamp(35px,5vw,60px);letter-spacing:-2px}
 .swap-layout p{color:var(--muted);line-height:1.9}
-.swap-panel{
-  padding:25px;
-  border-color:rgba(255,32,60,.24);
-  box-shadow:0 0 70px rgba(255,32,60,.065);
+.swap-panel{border-color:rgba(255,32,60,.3)}
+.swap-box{
+ background:#09080b;
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:19px;
+ margin:12px 0;
 }
-.swap-top{
-  display:flex;justify-content:space-between;
-  align-items:center;margin-bottom:24px;
+.swap-box label{font-size:11px;color:var(--muted)}
+.swap-row{display:flex;align-items:center;gap:15px;margin-top:12px}
+.swap-row input{
+ width:100%;min-width:0;
+ background:transparent;
+ border:0;
+ color:#fff;
+ font-size:24px;
+ outline:0;
 }
-.swap-top h3{margin:0;font-size:23px}
-.swap-top span{color:var(--muted);font-size:12px}
-.swap-token{
-  padding:19px;
-  border-radius:15px;
-  background:#0b0a0d;
-  border:1px solid var(--line);
-  margin:10px 0;
+.token-pill{
+ display:flex;align-items:center;gap:8px;
+ border-radius:30px;
+ background:#262127;
+ padding:8px 12px;
+ font-weight:800;
+ font-size:13px;
+ white-space:nowrap;
 }
-.swap-token label{
-  color:var(--muted);font-size:11px;
-  display:block;margin-bottom:12px;
-}
-.swap-token-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.swap-token-row input{
-  width:100%;min-width:0;
-  background:none;border:0;outline:0;
-  color:#fff;font-size:26px;font-family:"Space Grotesk";
-}
-.swap-token-row input:focus-visible{outline:0}
-.token-chip{
-  display:flex;align-items:center;gap:9px;
-  background:#242027;
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:8px 11px;
-  font-weight:800;
-  white-space:nowrap;
-}
-.token-chip img{width:23px;height:23px;object-fit:contain}
-.token-chip .bnb{color:#f3ba2f;font-size:22px}
-.swap-arrow{text-align:center;color:var(--red);font-size:24px;margin:-3px 0}
-.swap-disclaimer{
-  color:#77717c;
-  font-size:11px;
-  line-height:1.7;
-  text-align:center;
-  margin:15px 0 0;
-}
-.swap-panel .btn{width:100%;margin-top:14px}
+.token-pill img{width:23px;height:23px;object-fit:contain}
+.swap-arrow{text-align:center;font-size:25px;color:var(--red)}
+.swap-panel .btn{width:100%;margin-top:12px}
 
 /* FAQ */
-.faq-wrap{max-width:810px;margin:auto}
+.faq{max-width:800px;margin:auto}
 details{
-  border:1px solid var(--line);
-  border-radius:15px;
-  background:rgba(255,255,255,.025);
-  margin-bottom:12px;
-  padding:20px 23px;
+ background:#110e12;
+ border:1px solid var(--line);
+ border-radius:15px;
+ margin-bottom:12px;
+ padding:21px 23px;
 }
 summary{cursor:pointer;font-weight:800;font-size:14px}
-details p{color:var(--muted);font-size:13px;line-height:1.85;margin:17px 0 0}
+details p{font-size:13px;color:var(--muted);line-height:1.9}
 
 /* FOOTER */
-.footer-cta{
-  text-align:center;
-  padding:70px 25px;
-  background:
-    radial-gradient(ellipse at center,rgba(240,18,51,.17),transparent 70%),
-    #100b0f;
-  border:1px solid rgba(255,32,60,.2);
-  border-radius:30px;
+.cta{
+ text-align:center;
+ padding:70px 25px;
+ border-radius:30px;
+ border:1px solid rgba(255,32,60,.2);
+ background:radial-gradient(circle,rgba(255,0,55,.15),transparent 70%),#110b0f;
 }
-.footer-cta h2{font-size:clamp(32px,4.8vw,55px);letter-spacing:-2px}
-.footer-cta p{color:var(--muted);margin:15px 0 30px}
-footer{padding:55px 0 25px}
-.footer-main{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:20px;flex-wrap:wrap;
-  padding-bottom:35px;
-  border-bottom:1px solid var(--line);
+.cta h2{font-size:clamp(35px,5vw,55px);letter-spacing:-2px}
+.cta p{color:var(--muted)}
+footer{padding:60px 0 30px}
+.footer-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:25px;
+ flex-wrap:wrap;
+ padding-bottom:35px;
+ border-bottom:1px solid var(--line);
 }
-.footer-links{display:flex;gap:24px;flex-wrap:wrap}
-.footer-links a{color:var(--muted);font-size:13px}
-.footer-links a:hover{color:#fff}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap}
+.footer-links a{font-size:13px;color:var(--muted)}
 .footer-bottom{
-  padding-top:24px;color:#77717c;font-size:12px;
-  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+ padding-top:25px;
+ color:#79717e;
+ font-size:12px;
+ display:flex;
+ justify-content:space-between;
+ flex-wrap:wrap;
+ gap:15px;
 }
-
-/* TOAST */
 .toast{
-  position:fixed;
-  bottom:25px;right:25px;
-  z-index:300;
-  max-width:360px;
-  background:#21131a;
-  color:#fff;
-  border:1px solid #a72b42;
-  box-shadow:0 15px 60px #0009;
-  border-radius:15px;
-  padding:16px 22px;
-  font-size:13px;
-  line-height:1.6;
-  opacity:0;visibility:hidden;
-  transform:translateY(20px);
-  transition:.3s;
+ position:fixed;
+ right:25px;bottom:25px;
+ max-width:350px;
+ background:#251018;
+ border:1px solid #a62c43;
+ border-radius:13px;
+ padding:16px 22px;
+ z-index:500;
+ font-size:13px;
+ opacity:0;
+ visibility:hidden;
+ transform:translateY(20px);
+ transition:.3s;
 }
-.toast.show{
-  opacity:1;visibility:visible;transform:none;
-}
-.reveal{
-  opacity:0;
-  transform:translateY(28px);
-  transition:opacity .75s,transform .75s;
-}
-.reveal.visible{opacity:1;transform:none}
+.toast.show{opacity:1;visibility:visible;transform:none}
 
 /* RESPONSIVE */
 @media(max-width:1050px){
  .nav-links{gap:15px}
  .nav-links a{font-size:12px}
- .hero h1{letter-spacing:-3px}
  .grid-4{grid-template-columns:repeat(2,1fr)}
- .roadmap-grid{grid-template-columns:repeat(2,1fr)}
- .swap-layout{grid-template-columns:1fr 400px;gap:30px}
+ .roadmap{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:800px){
+@media(max-width:850px){
  header{height:70px}
- .menu-btn{display:block}
+ .menu-toggle{display:block}
  .nav-links{
   display:none;
   position:absolute;
   top:70px;left:0;right:0;
-  padding:23px 24px;
   background:#100d10;
-  border-bottom:1px solid var(--line);
+  padding:25px;
   flex-direction:column;
   align-items:stretch;
-  gap:20px;
+  border-bottom:1px solid var(--line);
  }
  .nav-links.open{display:flex}
  .nav-links a{font-size:15px}
- .hero{padding:130px 0 65px}
  .hero-grid{grid-template-columns:1fr;text-align:center}
- .hero-desc{margin:auto}
- .hero-btns,.hero-trust{justify-content:center}
- .coin-scene{height:430px}
- .grid-3{grid-template-columns:repeat(2,1fr)}
- .dashboard-main,.ecosystem,.token-grid,.swap-layout{grid-template-columns:1fr}
+ .hero p{margin:auto}
+ .hero-buttons,.hero-stats{justify-content:center}
+ .coin-scene{height:440px}
+ .dashboard-grid,.ecosystem-grid,.token-grid,.swap-layout{grid-template-columns:1fr}
  .token-grid{gap:35px}
- .swap-layout{gap:30px}
+ .grid-3{grid-template-columns:repeat(2,1fr)}
  .section{padding:75px 0}
- .float-pill.top{right:5%}
- .float-pill.bottom{left:5%}
 }
-@media(max-width:540px){
+@media(max-width:550px){
  .container{width:calc(100% - 32px)}
- .nav-actions .btn{padding:9px 12px;font-size:11px;min-height:38px}
- .brand strong{font-size:19px}
- .brand img{width:37px;height:37px}
- .hero h1{font-size:48px;letter-spacing:-2.8px}
- .hero-desc{font-size:14px}
- .hero-trust{gap:16px;margin-top:38px;text-align:left}
- .hero-trust strong{font-size:16px}
- .coin-scene{height:360px}
- .coin-float{width:66%}
- .float-pill{padding:10px;font-size:10px}
- .float-pill.top{top:30px;right:0}
- .float-pill.bottom{bottom:38px;left:0}
- .float-pill strong{font-size:10px}
- .float-pill span{font-size:9px}
- .grid-3,.grid-4,.roadmap-grid{grid-template-columns:1fr}
- .section-head h2{font-size:35px;letter-spacing:-1px}
- .panel{padding:21px}
- .stat-card{min-height:135px}
- .chart-box{min-height:340px}
+ .logo-wrap img{width:40px;height:40px}
+ .logo-wrap strong{font-size:20px}
+ .nav-right .btn{font-size:11px;padding:10px 12px}
+ .hero{padding:130px 0 60px}
+ .hero h1{font-size:50px;letter-spacing:-3px}
+ .hero p{font-size:14px}
+ .hero-stats{gap:20px}
+ .coin-scene{height:350px}
+ .coin{width:67%}
+ .floating-label{padding:10px}
+ .floating-label strong{font-size:10px}
+ .floating-label small{font-size:9px}
+ .floating-label.top{top:25px}
+ .floating-label.bottom{bottom:30px}
+ .grid-3,.grid-4,.roadmap{grid-template-columns:1fr}
+ .section-title h2{font-size:35px}
+ .card{padding:22px}
  .chart-frame{height:270px}
- .eco-large{min-height:345px}
- .token-ring{max-width:295px}
- .swap-panel{padding:19px}
- .hero-btns .btn{flex:1}
- .footer-main{align-items:flex-start}
+ .eco-large{min-height:350px}
+ .swap-layout{gap:30px}
  .toast{left:16px;right:16px;bottom:16px;max-width:none}
 }
 @media(prefers-reduced-motion:reduce){
- *,*:before,*:after{
-  animation-duration:.01ms!important;
-  animation-iteration-count:1!important;
-  scroll-behavior:auto!important;
- }
- .reveal{opacity:1;transform:none}
+ *,*:before,*:after{animation:none!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
@@ -825,501 +647,401 @@ footer{padding:55px 0 25px}
 
 <header>
  <div class="container nav">
-  <a href="#home" class="brand">
-   <img class="caster-logo" alt="CASTER Logo" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png">
+  <a href="#home" class="logo-wrap">
+   <img class="caster-logo" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png" alt="CASTER">
    <strong>CAS<span>TER</span></strong>
   </a>
 
   <nav class="nav-links" id="navLinks">
    <a href="#home">Home</a>
    <a href="#dashboard">Dashboard</a>
+   <a href="#features">Features</a>
    <a href="#ecosystem">Ecosystem</a>
    <a href="#tokenomics">Tokenomics</a>
    <a href="#roadmap">Roadmap</a>
    <a href="#swap">Trade</a>
   </nav>
 
-  <div class="nav-actions">
-   <button class="btn btn-primary btn-sm wallet-button" onclick="connectWallet()">Connect Wallet</button>
-   <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  <div class="nav-right">
+   <button class="btn btn-red wallet-button" onclick="connectWallet()">Connect Wallet</button>
+   <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
   </div>
  </div>
 </header>
 
 <main>
 
-<!-- HERO -->
 <section class="hero" id="home">
  <div class="container hero-grid">
   <div class="hero-content">
-   <div class="tag"><span class="dot"></span> BUILT ON BNB SMART CHAIN</div>
-
-   <h1>
-    THE FUTURE<br>
-    IS <span>CASTER.</span>
-   </h1>
-
-   <p class="hero-desc">
-    Discover a new vision for decentralized finance.
-    CASTER brings together digital ownership,
-    blockchain transparency and a modern Web3 experience.
-    Explore the ecosystem, connect your wallet and take
-    control of your journey on BNB Smart Chain.
+   <div class="hero-badge">POWERED BY BNB SMART CHAIN</div>
+   <h1>THE FUTURE<br>IS <span>CASTER.</span></h1>
+   <p>
+    Welcome to the next generation of Web3.
+    CASTER combines blockchain transparency,
+    decentralized accessibility and a powerful
+    digital experience built for the future.
    </p>
-
-   <div class="hero-btns">
-    <a id="heroBuy" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-     Explore Trading <span>↗</span>
-    </a>
-    <a href="#ecosystem" class="btn btn-outline">Explore Ecosystem ↓</a>
+   <div class="hero-buttons">
+    <a class="btn btn-red buy-link" target="_blank" rel="noopener noreferrer">Explore Trading ↗</a>
+    <a class="btn btn-dark" href="#ecosystem">Explore Ecosystem ↓</a>
    </div>
-
-   <div class="hero-trust">
+   <div class="hero-stats">
     <div><strong>BSC</strong><span>NETWORK</span></div>
-    <div><strong>ERC-20</strong><span>EVM TOKEN STANDARD</span></div>
-    <div><strong>Web3</strong><span>CONNECTED EXPERIENCE</span></div>
+    <div><strong>BEP-20</strong><span>TOKEN STANDARD</span></div>
+    <div><strong>Web3</strong><span>DIGITAL EXPERIENCE</span></div>
    </div>
   </div>
 
-  <div class="coin-scene" id="coinScene">
-   <div class="orbit"></div>
-   <div class="orbit two"></div>
-   <div class="coin-shadow"></div>
-
-   <div class="coin-float" id="coinFloat">
-    <div class="coin-edge"></div>
+  <div class="coin-scene">
+   <div class="coin-orbit"></div>
+   <div class="coin-orbit second"></div>
+   <div class="coin-glow"></div>
+   <div class="coin">
     <div class="coin-face">
-     <img class="caster-logo" alt="3D CASTER Token" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png">
+     <img class="caster-logo" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png" alt="CASTER Token">
     </div>
    </div>
-
-   <div class="float-pill top">
+   <div class="floating-label top">
     <strong>● BNB Smart Chain</strong>
-    <span>Network ID: 56</span>
+    <small>Chain ID: 56</small>
    </div>
-   <div class="float-pill bottom">
-    <strong style="color:#ff4964">CASTER / Web3</strong>
-    <span>Decentralized token</span>
+   <div class="floating-label bottom">
+    <strong style="color:#ff5269">CASTER / WEB3</strong>
+    <small>Decentralized Experience</small>
    </div>
-
-   <div class="particle" style="top:17%;left:26%"></div>
-   <div class="particle" style="top:27%;right:13%;animation-delay:-2s"></div>
-   <div class="particle" style="bottom:20%;left:18%;animation-delay:-3s"></div>
-   <div class="particle" style="bottom:25%;right:15%;animation-delay:-1s"></div>
   </div>
  </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
- <div class="ticker">
+<div class="ticker">
+ <div class="ticker-inner">
   <span><b>◆</b> CASTER ECOSYSTEM</span>
   <span><b>◆</b> BNB SMART CHAIN</span>
-  <span><b>◆</b> NEXT GENERATION WEB3</span>
-  <span><b>◆</b> DIGITAL OWNERSHIP</span>
+  <span><b>◆</b> THE FUTURE OF WEB3</span>
   <span><b>◆</b> DECENTRALIZED FINANCE</span>
+  <span><b>◆</b> DIGITAL OWNERSHIP</span>
   <span><b>◆</b> CASTER ECOSYSTEM</span>
   <span><b>◆</b> BNB SMART CHAIN</span>
-  <span><b>◆</b> NEXT GENERATION WEB3</span>
-  <span><b>◆</b> DIGITAL OWNERSHIP</span>
+  <span><b>◆</b> THE FUTURE OF WEB3</span>
   <span><b>◆</b> DECENTRALIZED FINANCE</span>
+  <span><b>◆</b> DIGITAL OWNERSHIP</span>
  </div>
 </div>
 
-<!-- DASHBOARD -->
 <section class="section" id="dashboard">
  <div class="container">
-  <div class="section-head reveal">
-   <div class="tag">ON-CHAIN INTELLIGENCE</div>
-   <h2>THE CASTER <span class="accent">DASHBOARD.</span></h2>
-   <p>
-    Explore available market and blockchain information.
-    Token supply is retrieved from BNB Smart Chain, while
-    trading data is sourced from supported decentralized exchanges.
-   </p>
+  <div class="section-title">
+   <div class="eyebrow">LIVE TOKEN INTELLIGENCE</div>
+   <h2>CASTER <span class="red">DASHBOARD.</span></h2>
+   <p>Explore on-chain token information and available decentralized market data.</p>
   </div>
 
   <div class="grid grid-4">
-
-   <div class="panel stat-card reveal">
-    <div class="label">Token Price <span class="live-indicator" id="priceStatus">● Checking</span></div>
-    <div class="value" id="tokenPrice">—</div>
-    <div class="sub" id="priceChange">Market data pending</div>
+   <div class="card">
+    <div class="stat-label">Token Price</div>
+    <div class="stat-value" id="price">—</div>
+    <div class="stat-sub" id="priceChange">Checking market data</div>
    </div>
-
-   <div class="panel stat-card reveal">
-    <div class="label">Market Cap <span>USD</span></div>
-    <div class="value" id="marketCap">—</div>
-    <div class="sub">Provider-reported market cap</div>
+   <div class="card">
+    <div class="stat-label">Market Cap</div>
+    <div class="stat-value" id="marketCap">—</div>
+    <div class="stat-sub">Provider reported</div>
    </div>
-
-   <div class="panel stat-card reveal">
-    <div class="label">Total Supply <span>ON-CHAIN</span></div>
-    <div class="value" id="totalSupply">—</div>
-    <div class="sub">Token contract totalSupply()</div>
+   <div class="card">
+    <div class="stat-label">Total Supply</div>
+    <div class="stat-value" id="supply">—</div>
+    <div class="stat-sub">On-chain contract data</div>
    </div>
-
-   <div class="panel stat-card reveal">
-    <div class="label">24H Trading Volume <span>USD</span></div>
-    <div class="value" id="volume24h">—</div>
-    <div class="sub">DEX market activity</div>
+   <div class="card">
+    <div class="stat-label">24H Trading Volume</div>
+    <div class="stat-value" id="volume">—</div>
+    <div class="stat-sub">DEX market data</div>
    </div>
   </div>
 
-  <div class="dashboard-main">
-   <div class="panel chart-box reveal">
-    <div class="chart-header">
-     <h3>CASTER Live Market Chart</h3>
-     <a id="chartExternal" class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
-      View Chart ↗
-     </a>
+  <div class="dashboard-grid">
+   <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+     <h3 style="margin:0">CASTER Market Chart</h3>
+     <a id="chartLink" target="_blank" rel="noopener noreferrer" class="btn btn-dark" style="font-size:12px;padding:10px 15px">Open Chart ↗</a>
     </div>
-    <div class="chart-frame" id="chartContainer">
-     <div class="chart-empty" id="chartEmpty">
-      <div style="font-size:42px;color:#ff203c">◈</div>
-      <h4>Market Data</h4>
-      <p>Checking for a supported CASTER liquidity pool and live market chart.</p>
+    <div class="chart-frame" id="chartFrame">
+     <div class="chart-placeholder">
+      <div style="font-size:45px;color:#ff203c">◈</div>
+      <h3>Live Market Data</h3>
+      <p>Checking for a supported CASTER liquidity pool.</p>
      </div>
     </div>
    </div>
 
-   <div class="panel reveal">
-    <div class="tag">OFFICIAL CONTRACT</div>
-    <h3 style="font-size:25px;margin:22px 0 8px">CASTER Token</h3>
-    <p class="muted small" style="line-height:1.8">
-     Verify the token contract before performing any transaction.
+   <div class="card">
+    <div class="eyebrow">OFFICIAL TOKEN CONTRACT</div>
+    <h3 style="font-size:26px;margin:20px 0 10px">CASTER Token</h3>
+    <p class="muted" style="font-size:13px;line-height:1.8">
+     Verify the token contract before interacting with decentralized applications.
     </p>
-
-    <div class="contract-box" id="contractText">
+    <div class="contract-address" id="contractAddress">
      0x848e975518d8E95e0748D725696Ab2d0521e649E
     </div>
-
-    <div class="chain-line"><span>Network</span><b>BNB Smart Chain</b></div>
-    <div class="chain-line"><span>Chain ID</span><b>56</b></div>
-    <div class="chain-line"><span>Token Symbol</span><b id="chainSymbol">CASTER</b></div>
-    <div class="chain-line"><span>Decimals</span><b id="decimals">—</b></div>
-
-    <div class="quick-actions">
-     <button class="btn btn-primary btn-sm" onclick="addToken()">＋ Add Token</button>
-     <button class="btn btn-outline btn-sm" onclick="copyContract()">Copy Address</button>
-     <a class="btn btn-outline btn-sm" id="explorerLink" target="_blank" rel="noopener noreferrer">BscScan ↗</a>
+    <div class="info-line"><span>Network</span><b>BNB Smart Chain</b></div>
+    <div class="info-line"><span>Chain ID</span><b>56</b></div>
+    <div class="info-line"><span>Symbol</span><b id="symbol">CASTER</b></div>
+    <div class="info-line"><span>Decimals</span><b id="decimals">—</b></div>
+    <div class="actions">
+     <button class="btn btn-red" onclick="addToken()">＋ Add Token</button>
+     <button class="btn btn-dark" onclick="copyContract()">Copy Address</button>
+     <a id="explorerLink" target="_blank" rel="noopener noreferrer" class="btn btn-dark">BscScan ↗</a>
     </div>
    </div>
   </div>
  </div>
 </section>
 
-<!-- FEATURES -->
 <section class="section" id="features">
  <div class="container">
-  <div class="section-head center reveal">
-   <div class="tag">EXPLORE THE POSSIBILITIES</div>
-   <h2>BUILT FOR THE <span class="accent">WEB3 ERA.</span></h2>
-   <p>
-    CASTER's digital experience is designed around accessible
-    blockchain interaction, transparent token information
-    and an intuitive user interface.
-   </p>
+  <div class="section-title">
+   <div class="eyebrow">THE CASTER EXPERIENCE</div>
+   <h2>BUILT FOR THE <span class="red">WEB3 ERA.</span></h2>
+   <p>Discover the capabilities of a modern blockchain-connected experience.</p>
   </div>
 
   <div class="grid grid-3">
-   <div class="panel feature-card hover reveal">
+   <div class="card feature-card">
     <div class="feature-icon">⬡</div>
     <h3>Blockchain Transparency</h3>
-    <p>Verify transactions, balances and token information through publicly accessible blockchain infrastructure.</p>
+    <p>Explore publicly accessible token data, transactions and blockchain records.</p>
    </div>
-   <div class="panel feature-card hover reveal">
+   <div class="card feature-card">
     <div class="feature-icon">◇</div>
     <h3>DeFi Connectivity</h3>
-    <p>Access decentralized trading routes through established BNB Smart Chain applications and liquidity venues.</p>
+    <p>Access supported decentralized trading applications on BNB Smart Chain.</p>
    </div>
-   <div class="panel feature-card hover reveal">
+   <div class="card feature-card">
     <div class="feature-icon">◉</div>
-    <h3>Web3 Wallets</h3>
-    <p>Connect compatible browser wallets, switch to BNB Smart Chain and add CASTER to your wallet interface.</p>
+    <h3>Web3 Wallet Support</h3>
+    <p>Connect a compatible wallet, switch networks and add CASTER to your wallet.</p>
    </div>
-   <div class="panel feature-card hover reveal">
+   <div class="card feature-card">
     <div class="feature-icon">⌘</div>
-    <h3>Modern User Experience</h3>
-    <p>A responsive visual environment with intuitive navigation, optimized layouts and interactive elements.</p>
+    <h3>Modern Interface</h3>
+    <p>Experience responsive layouts, interactive components and intuitive navigation.</p>
    </div>
-   <div class="panel feature-card hover reveal">
+   <div class="card feature-card">
     <div class="feature-icon">↗</div>
     <h3>Market Discovery</h3>
-    <p>Explore market pricing, liquidity and trading information when supported CASTER pools are available.</p>
+    <p>Access supported token pricing, liquidity information and trading charts.</p>
    </div>
-   <div class="panel feature-card hover reveal">
+   <div class="card feature-card">
     <div class="feature-icon">✦</div>
-    <h3>Future-Ready Design</h3>
-    <p>A modular digital experience that can expand as additional CASTER services and integrations are introduced.</p>
+    <h3>Future-Ready Ecosystem</h3>
+    <p>A flexible platform that can evolve with additional tools and Web3 integrations.</p>
    </div>
   </div>
  </div>
 </section>
 
-<!-- ECOSYSTEM -->
 <section class="section" id="ecosystem">
  <div class="container">
-  <div class="section-head reveal">
-   <div class="tag">THE CASTER VISION</div>
-   <h2>ONE TOKEN. <span class="accent">MORE POSSIBILITIES.</span></h2>
-   <p>
-    A unified entry point to discover CASTER, explore decentralized
-    markets and engage with the BNB Smart Chain ecosystem.
-   </p>
+  <div class="section-title">
+   <div class="eyebrow">EXPLORE CASTER</div>
+   <h2>ONE TOKEN. <span class="red">MORE POSSIBILITIES.</span></h2>
+   <p>Discover the CASTER token and its connection to the BNB Smart Chain ecosystem.</p>
   </div>
 
-  <div class="ecosystem">
-   <div class="panel eco-large reveal">
-    <div class="eco-content">
-     <div class="tag">CASTER NETWORK EXPERIENCE</div>
-     <h3 style="margin-top:23px">POWERING A NEW DIGITAL EXPERIENCE.</h3>
-     <p>
-      CASTER is positioned as a Web3 token experience focused
-      on accessibility, usability and blockchain-native interaction.
-      Follow the ecosystem's development and explore its token
-      through public on-chain tools.
-     </p>
-     <a href="#dashboard" class="btn btn-primary" style="margin-top:13px">Explore CASTER ↗</a>
-    </div>
-    <img class="eco-logo caster-logo" alt="" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png">
+  <div class="ecosystem-grid">
+   <div class="card eco-large">
+    <div class="eyebrow">CASTER ECOSYSTEM</div>
+    <h3>POWERING A NEW DIGITAL EXPERIENCE.</h3>
+    <p>
+     CASTER brings together a distinctive Web3 identity,
+     accessible blockchain tools and an intuitive interface
+     for exploring decentralized token activity.
+    </p>
+    <a href="#dashboard" class="btn btn-red" style="margin-top:15px">Explore Dashboard ↗</a>
+    <img class="background-logo caster-logo" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png" alt="">
    </div>
-
    <div class="eco-stack">
-    <div class="panel eco-small hover reveal">
-     <div class="feature-icon" style="width:42px;height:42px;font-size:20px;margin-bottom:13px">↔</div>
+    <div class="card">
+     <div class="feature-icon" style="width:45px;height:45px;font-size:21px;margin-bottom:10px">↔</div>
      <h3>Decentralized Trading</h3>
-     <p>Discover supported trading routes and access PancakeSwap using CASTER's contract address.</p>
-     <a href="#swap" style="color:#ff536c;font-size:12px;font-weight:800">Explore Trading ↗</a>
+     <p>Explore supported swap routes through PancakeSwap on BNB Smart Chain.</p>
+     <a href="#swap" class="red" style="font-size:12px;font-weight:800">Explore Trading ↗</a>
     </div>
-    <div class="panel eco-small hover reveal">
-     <div class="feature-icon" style="width:42px;height:42px;font-size:20px;margin-bottom:13px">◈</div>
+    <div class="card">
+     <div class="feature-icon" style="width:45px;height:45px;font-size:21px;margin-bottom:10px">◈</div>
      <h3>On-Chain Verification</h3>
-     <p>Explore token information and blockchain activity using the official BscScan explorer.</p>
-     <a id="ecosystemExplorer" target="_blank" rel="noopener noreferrer" style="color:#ff536c;font-size:12px;font-weight:800">View Contract ↗</a>
+     <p>Inspect token details, transfers and contract information using BscScan.</p>
+     <a id="ecoExplorer" target="_blank" rel="noopener noreferrer" class="red" style="font-size:12px;font-weight:800">View Contract ↗</a>
     </div>
    </div>
   </div>
  </div>
 </section>
 
-<!-- TOKENOMICS -->
 <section class="section" id="tokenomics">
  <div class="container">
-  <div class="section-head center reveal">
-   <div class="tag">TOKEN INFORMATION</div>
-   <h2>CASTER <span class="accent">TOKENOMICS.</span></h2>
-   <p>
-    Explore publicly readable token parameters directly from
-    the deployed contract on BNB Smart Chain.
-   </p>
+  <div class="section-title">
+   <div class="eyebrow">TOKEN INFORMATION</div>
+   <h2>CASTER <span class="red">TOKENOMICS.</span></h2>
+   <p>On-chain token specifications and publicly available blockchain information.</p>
   </div>
 
   <div class="token-grid">
-   <div class="reveal">
-    <div class="token-ring">
-     <div class="token-ring-inner">
+   <div>
+    <div class="token-circle">
+     <div class="token-inner">
       <img class="caster-logo" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png" alt="CASTER">
       <strong>CASTER</strong>
-      <span>BNB SMART CHAIN</span>
+      <small>BNB SMART CHAIN</small>
      </div>
     </div>
-    <p class="token-note" style="text-align:center">
-     Decorative ecosystem ring — not a token allocation chart.
+    <p class="muted" style="font-size:11px;text-align:center;margin-top:20px">
+     Decorative visualization. Not an allocation breakdown.
     </p>
    </div>
-
-   <div class="panel reveal">
-    <h3 style="font-size:25px">Token Specifications</h3>
-    <div class="token-row"><span>Token Name</span><b id="specName">CASTER</b></div>
-    <div class="token-row"><span>Token Symbol</span><b id="specSymbol">CASTER</b></div>
+   <div class="card">
+    <h3 style="font-size:26px">Token Specifications</h3>
+    <div class="token-row"><span>Token Name</span><b id="tokenName">CASTER</b></div>
+    <div class="token-row"><span>Symbol</span><b id="tokenSymbol">CASTER</b></div>
     <div class="token-row"><span>Blockchain</span><b>BNB Smart Chain</b></div>
-    <div class="token-row"><span>Token Standard</span><b>BEP-20 / ERC-20 Compatible</b></div>
-    <div class="token-row"><span>Total Supply</span><b id="specSupply">Loading...</b></div>
-    <div class="token-row"><span>Decimals</span><b id="specDecimals">Loading...</b></div>
-    <div class="token-row"><span>Circulating Supply</span><b>Not independently verified</b></div>
-    <div class="token-row"><span>Contract</span><b class="mono" style="font-size:11px">0x848e...649E</b></div>
-
-    <p class="token-note">
-     Allocation percentages, vesting schedules and circulating
-     supply require verified disclosures and are not represented
-     by the decorative diagram.
+    <div class="token-row"><span>Standard</span><b>BEP-20</b></div>
+    <div class="token-row"><span>Total Supply</span><b id="tokenSupply">Loading...</b></div>
+    <div class="token-row"><span>Decimals</span><b id="tokenDecimals">Loading...</b></div>
+    <div class="token-row"><span>Circulating Supply</span><b>Not verified</b></div>
+    <p class="muted" style="font-size:12px;line-height:1.8;margin-top:20px">
+     Allocation and vesting figures will be published when official verified data is available.
     </p>
-
-    <a id="tokenomicsExplorer" class="btn btn-outline" target="_blank" rel="noopener noreferrer" style="margin-top:15px">
-     Verify on BscScan ↗
-    </a>
+    <a id="tokenExplorer" target="_blank" rel="noopener noreferrer" class="btn btn-dark" style="margin-top:12px">Verify Contract ↗</a>
    </div>
   </div>
  </div>
 </section>
 
-<!-- ROADMAP -->
 <section class="section" id="roadmap">
  <div class="container">
-  <div class="section-head center reveal">
-   <div class="tag">OUR FUTURE DIRECTION</div>
-   <h2>THE CASTER <span class="accent">ROADMAP.</span></h2>
-   <p>
-    Proposed areas of ecosystem development.
-    These are illustrative planning stages, not confirmed
-    delivery dates or completed milestones.
-   </p>
+  <div class="section-title">
+   <div class="eyebrow">FUTURE DEVELOPMENT</div>
+   <h2>THE CASTER <span class="red">ROADMAP.</span></h2>
+   <p>Illustrative development directions, subject to official project confirmation.</p>
   </div>
 
-  <div class="roadmap-grid">
-   <div class="panel phase reveal">
-    <div class="phase-num">PHASE 01</div>
+  <div class="roadmap">
+   <div class="card phase">
+    <small>PHASE 01</small>
     <h3>Foundation</h3>
-    <p>Brand identity, token information, blockchain presence and initial Web3 website.</p>
-    <span class="phase-status">PROPOSED STAGE</span>
+    <p>Project branding, token presence, website development and blockchain accessibility.</p>
    </div>
-   <div class="panel phase reveal">
-    <div class="phase-num">PHASE 02</div>
+   <div class="card phase">
+    <small>PHASE 02</small>
     <h3>Market Access</h3>
-    <p>DEX discovery, token analytics, market information and broader ecosystem visibility.</p>
-    <span class="phase-status">PROPOSED STAGE</span>
+    <p>Decentralized market discovery, analytics and ecosystem awareness.</p>
    </div>
-   <div class="panel phase reveal">
-    <div class="phase-num">PHASE 03</div>
+   <div class="card phase">
+    <small>PHASE 03</small>
     <h3>Expansion</h3>
-    <p>Potential Web3 integrations, user-facing tools and ecosystem partnerships.</p>
-    <span class="phase-status">PROPOSED STAGE</span>
+    <p>Potential partnerships, new Web3 tools and additional integrations.</p>
    </div>
-   <div class="panel phase reveal">
-    <div class="phase-num">PHASE 04</div>
+   <div class="card phase">
+    <small>PHASE 04</small>
     <h3>Evolution</h3>
-    <p>Exploration of sustainable functionality and new decentralized use cases.</p>
-    <span class="phase-status">PROPOSED STAGE</span>
+    <p>Exploration of future utility and long-term ecosystem development.</p>
    </div>
   </div>
  </div>
 </section>
 
-<!-- SWAP -->
-<section class="section swap-section" id="swap">
+<section class="section" id="swap">
  <div class="container swap-layout">
-  <div class="reveal">
-   <div class="tag">DECENTRALIZED MARKET ACCESS</div>
-   <h2 style="margin:25px 0">YOUR GATEWAY TO <span class="accent">CASTER.</span></h2>
+  <div>
+   <div class="eyebrow">DECENTRALIZED TRADING</div>
+   <h2>YOUR GATEWAY TO <span class="red">CASTER.</span></h2>
    <p>
-    Access decentralized trading on BNB Smart Chain through PancakeSwap.
-    Choose your input token and continue to the exchange, where the
-    available liquidity, execution price, slippage and transaction
-    details can be reviewed before confirming a swap.
+    Explore CASTER trading through PancakeSwap.
+    Connect your wallet on the exchange and review
+    the available quote, liquidity, fees and slippage
+    before approving any transaction.
    </p>
-
-   <div class="hero-trust" style="margin-top:25px">
-    <div><strong>BNB Chain</strong><span>SUPPORTED NETWORK</span></div>
-    <div><strong>Self-Custody</strong><span>WALLET CONTROL</span></div>
-   </div>
+   <a id="swapExplorer" target="_blank" rel="noopener noreferrer" class="btn btn-dark">Verify CASTER Contract ↗</a>
   </div>
 
-  <div class="panel swap-panel reveal">
-   <div class="swap-top">
-    <h3>Swap Tokens</h3>
-    <span>Powered by PancakeSwap ↗</span>
-   </div>
+  <div class="card swap-panel">
+   <h3 style="font-size:24px;margin:0 0 23px">Swap Tokens</h3>
 
-   <div class="swap-token">
+   <div class="swap-box">
     <label>YOU PAY</label>
-    <div class="swap-token-row">
-     <input id="swapAmount" type="number" min="0" step="any" value="0.1" placeholder="0.0">
-     <div class="token-chip"><span class="bnb">◆</span> BNB</div>
+    <div class="swap-row">
+     <input type="number" id="swapAmount" value="0.1" min="0" step="any" aria-label="BNB amount">
+     <div class="token-pill"><span style="color:#f3ba2f;font-size:21px">◆</span> BNB</div>
     </div>
    </div>
 
    <div class="swap-arrow">↓</div>
 
-   <div class="swap-token">
+   <div class="swap-box">
     <label>YOU RECEIVE</label>
-    <div class="swap-token-row">
-     <input type="text" value="See quote on DEX" readonly style="font-size:17px;color:#aaa">
-     <div class="token-chip">
+    <div class="swap-row">
+     <input type="text" value="Quote on DEX" readonly style="font-size:17px;color:#aaa">
+     <div class="token-pill">
       <img class="caster-logo" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png" alt="">
       CASTER
      </div>
     </div>
    </div>
 
-   <div class="chain-line">
-    <span>Trading Network</span>
-    <b>BNB Smart Chain</b>
-   </div>
-   <div class="chain-line">
-    <span>Estimated Output</span>
-    <b>Shown on PancakeSwap</b>
-   </div>
-   <div class="chain-line">
-    <span>Liquidity</span>
-    <b id="liquidityStatus">Checking...</b>
-   </div>
+   <div class="info-line"><span>Network</span><b>BNB Smart Chain</b></div>
+   <div class="info-line"><span>Liquidity</span><b id="liquidity">Checking...</b></div>
 
-   <button class="btn btn-primary" onclick="openSwap()">
-    Continue to PancakeSwap ↗
-   </button>
-   <button class="btn btn-outline" onclick="connectWallet()">
-    Connect Web3 Wallet
-   </button>
+   <button class="btn btn-red" onclick="openSwap()">Continue to PancakeSwap ↗</button>
+   <button class="btn btn-dark" onclick="connectWallet()">Connect Wallet</button>
 
-   <p class="swap-disclaimer">
-    This widget does not execute trades or calculate quotes.
-    Transactions occur on PancakeSwap after your review and approval.
+   <p class="muted" style="font-size:11px;text-align:center;line-height:1.7;margin:20px 0 0">
+    Quotes and transactions are handled by PancakeSwap, not by this website.
    </p>
   </div>
  </div>
 </section>
 
-<!-- FAQ -->
 <section class="section" id="faq">
  <div class="container">
-  <div class="section-head center reveal">
-   <div class="tag">LEARN MORE</div>
-   <h2>FREQUENTLY ASKED <span class="accent">QUESTIONS.</span></h2>
+  <div class="section-title">
+   <div class="eyebrow">LEARN MORE</div>
+   <h2>FREQUENTLY ASKED <span class="red">QUESTIONS.</span></h2>
   </div>
-
-  <div class="faq-wrap">
+  <div class="faq">
    <details>
     <summary>What is CASTER?</summary>
-    <p>CASTER is a token project on BNB Smart Chain. This website provides an interface to explore its contract, supported market information and Web3 wallet interactions.</p>
+    <p>CASTER is a token project on BNB Smart Chain. This website provides access to its token information, wallet integration and supported decentralized market services.</p>
    </details>
    <details>
     <summary>Which blockchain does CASTER use?</summary>
-    <p>CASTER uses BNB Smart Chain mainnet, Chain ID 56. The token contract address is 0x848e975518d8E95e0748D725696Ab2d0521e649E.</p>
+    <p>CASTER uses BNB Smart Chain mainnet, Chain ID 56.</p>
    </details>
    <details>
-    <summary>How can I add CASTER to MetaMask?</summary>
-    <p>Connect a compatible wallet, select BNB Smart Chain and click Add Token. Your wallet will ask for permission before adding the token information.</p>
+    <summary>How do I add CASTER to MetaMask?</summary>
+    <p>Connect your wallet and click Add Token. Your wallet will request permission to add the token contract.</p>
    </details>
    <details>
-    <summary>Where can I trade CASTER?</summary>
-    <p>The trading buttons open PancakeSwap with the CASTER contract selected. Trading depends on liquidity availability and support for the token.</p>
+    <summary>How can I trade CASTER?</summary>
+    <p>Use the trading section to open PancakeSwap with the CASTER contract selected. Trading requires a supported liquidity pool.</p>
    </details>
    <details>
-    <summary>Is a smart contract audit available?</summary>
-    <p>No independent audit report is presented on this website. Always review the on-chain contract and perform your own due diligence before interacting with any token.</p>
-   </details>
-   <details>
-    <summary>Where is the whitepaper?</summary>
-    <p>The official whitepaper has not yet been linked. A verified project document can be added to this website once published.</p>
+    <summary>Has the token been audited?</summary>
+    <p>No independently verified audit report is presented on this website. Always research the token contract before transacting.</p>
    </details>
   </div>
  </div>
 </section>
 
-<!-- FOOTER CTA -->
-<section class="section" style="padding-bottom:30px">
+<section class="section" style="padding-bottom:20px">
  <div class="container">
-  <div class="footer-cta reveal">
-   <div class="tag">WELCOME TO THE CASTER ERA</div>
-   <h2 style="margin:22px 0 0">
-    THE NEXT CHAPTER<br>
-    <span class="accent">STARTS HERE.</span>
-   </h2>
-   <p>Explore CASTER on BNB Smart Chain.</p>
-   <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
-    <a id="footerBuy" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Explore CASTER ↗</a>
-    <button class="btn btn-outline" onclick="addToken()">＋ Add to Wallet</button>
+  <div class="cta">
+   <div class="eyebrow">WELCOME TO THE CASTER ERA</div>
+   <h2>THE NEXT CHAPTER<br><span class="red">STARTS HERE.</span></h2>
+   <p>Explore the CASTER experience on BNB Smart Chain.</p>
+   <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:30px">
+    <a class="btn btn-red buy-link" target="_blank" rel="noopener noreferrer">Explore Trading ↗</a>
+    <button class="btn btn-dark" onclick="addToken()">＋ Add to Wallet</button>
    </div>
   </div>
  </div>
@@ -1329,13 +1051,14 @@ footer{padding:55px 0 25px}
 
 <footer>
  <div class="container">
-  <div class="footer-main">
-   <a class="brand" href="#home">
+  <div class="footer-top">
+   <a href="#home" class="logo-wrap">
     <img class="caster-logo" src="https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png" alt="CASTER">
     <strong>CAS<span>TER</span></strong>
    </a>
    <div class="footer-links">
     <a href="#dashboard">Dashboard</a>
+    <a href="#features">Features</a>
     <a href="#ecosystem">Ecosystem</a>
     <a href="#tokenomics">Tokenomics</a>
     <a href="#roadmap">Roadmap</a>
@@ -1344,12 +1067,10 @@ footer{padding:55px 0 25px}
   </div>
   <div class="footer-bottom">
    <span>© <span id="year"></span> CASTER. All rights reserved.</span>
-   <span>Built on BNB Smart Chain · Web3 Digital Experience</span>
+   <span>BNB Smart Chain · Web3 Experience</span>
   </div>
-  <p style="font-size:11px;color:#66616b;line-height:1.7;margin-top:20px">
-   Digital assets involve significant risk. Website content is informational
-   and does not constitute financial advice or a promise of returns.
-   Always verify the token contract and review transaction details.
+  <p class="muted" style="font-size:11px;line-height:1.8;margin-top:25px">
+   Digital assets involve risk. Nothing on this website constitutes financial advice or a guarantee of returns.
   </p>
  </div>
 </footer>
@@ -1359,109 +1080,157 @@ footer{padding:55px 0 25px}
 <script>
 "use strict";
 
-/* ==========================================
-   CASTER WEBSITE CONFIGURATION
-========================================== */
-const CONFIG = {
-  CONTRACT:"0x848e975518d8E95e0748D725696Ab2d0521e649E",
-  SYMBOL:"CASTER",
-  LOGO:"https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png",
-  CHAIN_ID:"0x38",
-  RPC:"https://bsc-dataseed.binance.org/",
-  EXPLORER:"https://bscscan.com",
-  DEX:"https://pancakeswap.finance/swap",
-  WBNB:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
-  DEX_API:"https://api.dexscreener.com/latest/dex/tokens/"
+const CASTER={
+ contract:"0x848e975518d8E95e0748D725696Ab2d0521e649E",
+ symbol:"CASTER",
+ logo:"https://raw.githubusercontent.com/axionteam645/CASTER/main/CASTER.png",
+ rpc:"https://bsc-dataseed.binance.org/",
+ chainId:"0x38",
+ explorer:"https://bscscan.com",
+ dex:"https://pancakeswap.finance/swap"
 };
 
-let walletAddress = null;
-let tokenDecimals = null;
-let tokenSymbol = CONFIG.SYMBOL;
-let tokenName = "CASTER";
-let toastTimer = null;
-let currentPair = null;
+const $=id=>document.getElementById(id);
 
-const $ = id => document.getElementById(id);
+let walletAddress=null;
+let decimals=null;
+let actualSymbol="CASTER";
+let timer=null;
 
-const CONTRACT_ABI = [
+const ABI=[
  "function name() view returns (string)",
  "function symbol() view returns (string)",
  "function decimals() view returns (uint8)",
  "function totalSupply() view returns (uint256)"
 ];
 
-function notify(message){
+/* =====================================
+   TRANSPARENT LOGO PROCESSING
+
+   Attempts to remove white or nearly
+   white pixels from the original PNG.
+
+   This works only when the source image
+   is readable by the browser canvas.
+===================================== */
+
+async function processLogo(){
+ try{
+  const response=await fetch(CASTER.logo,{mode:"cors"});
+  if(!response.ok)throw new Error("Logo unavailable");
+
+  const blob=await response.blob();
+  const bitmap=await createImageBitmap(blob);
+
+  const canvas=document.createElement("canvas");
+  canvas.width=bitmap.width;
+  canvas.height=bitmap.height;
+
+  const ctx=canvas.getContext("2d",{willReadFrequently:true});
+  ctx.drawImage(bitmap,0,0);
+  bitmap.close?.();
+
+  const image=ctx.getImageData(0,0,canvas.width,canvas.height);
+  const data=image.data;
+
+  /*
+   Remove white backgrounds while
+   preserving dark and colored artwork.
+   Thresholding is strongest for pixels
+   close to neutral white.
+  */
+  for(let i=0;i<data.length;i+=4){
+   const r=data[i];
+   const g=data[i+1];
+   const b=data[i+2];
+
+   const min=Math.min(r,g,b);
+   const max=Math.max(r,g,b);
+   const spread=max-min;
+
+   if(min>244 && spread<15){
+    data[i+3]=0;
+   }else if(min>215 && spread<18){
+    const factor=Math.max(0,Math.min(1,(244-min)/29));
+    data[i+3]=Math.round(data[i+3]*factor);
+   }
+  }
+
+  ctx.putImageData(image,0,0);
+  const transparentURL=canvas.toDataURL("image/png");
+
+  document.querySelectorAll(".caster-logo").forEach(img=>{
+   img.src=transparentURL;
+  });
+
+ }catch(e){
+  console.warn("Logo transparency processing unavailable:",e);
+  /*
+   Fallback: use original logo.
+   For a perfect result, replace the
+   GitHub PNG with a transparent PNG.
+  */
+ }
+}
+
+/* =====================================
+   UI
+===================================== */
+function toast(message){
  const el=$("toast");
  el.textContent=message;
  el.classList.add("show");
- clearTimeout(toastTimer);
- toastTimer=setTimeout(()=>el.classList.remove("show"),4300);
+ clearTimeout(timer);
+ timer=setTimeout(()=>el.classList.remove("show"),4200);
 }
 
 function shortAddress(address){
  return address.slice(0,6)+"..."+address.slice(-4);
 }
 
-function setupLinks(){
- const explorer=`${CONFIG.EXPLORER}/token/${CONFIG.CONTRACT}`;
- const dex=`${CONFIG.DEX}?chain=bsc&inputCurrency=BNB&outputCurrency=${CONFIG.CONTRACT}`;
- const chart=`https://dexscreener.com/bsc/${CONFIG.CONTRACT}`;
+function setup(){
+ const explorer=CASTER.explorer+"/token/"+CASTER.contract;
+ const dex=CASTER.dex+"?chain=bsc&inputCurrency=BNB&outputCurrency="+CASTER.contract;
 
- [
-  "explorerLink",
-  "ecosystemExplorer",
-  "tokenomicsExplorer"
- ].forEach(id=>$(id).href=explorer);
+ document.querySelectorAll(".buy-link").forEach(a=>a.href=dex);
 
- ["heroBuy","footerBuy"].forEach(id=>$(id).href=dex);
- $("chartExternal").href=chart;
- $("contractText").textContent=CONFIG.CONTRACT;
+ ["explorerLink","ecoExplorer","tokenExplorer","swapExplorer"].forEach(id=>{
+  $(id).href=explorer;
+ });
+
+ $("chartLink").href="https://dexscreener.com/bsc/"+CASTER.contract;
+ $("contractAddress").textContent=CASTER.contract;
  $("year").textContent=new Date().getFullYear();
 }
 
-function copyContract(){
- const value=CONFIG.CONTRACT;
- if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(value)
-   .then(()=>notify("Contract address copied"))
-   .catch(()=>fallbackCopy(value));
- }else{
-  fallbackCopy(value);
- }
-}
-
-function fallbackCopy(value){
- const input=document.createElement("textarea");
- input.value=value;
- input.style.position="fixed";
- input.style.opacity="0";
- document.body.appendChild(input);
- input.select();
+async function copyContract(){
  try{
-  document.execCommand("copy");
-  notify("Contract address copied");
+  await navigator.clipboard.writeText(CASTER.contract);
+  toast("Contract address copied");
  }catch(e){
-  notify("Copy failed. Please select the address manually.");
+  toast("Copy unavailable. Select the contract address manually.");
  }
- input.remove();
 }
 
+/* =====================================
+   WALLET
+===================================== */
 function getWallet(){
  if(!window.ethereum){
-  notify("No injected wallet found. Install MetaMask or open this site in a Web3 wallet browser.");
+  toast("Please install MetaMask or use a Web3 wallet browser.");
   return null;
  }
  return window.ethereum;
 }
 
-async function switchNetwork(){
+async function switchBSC(){
  const eth=getWallet();
  if(!eth)return false;
 
  try{
   await eth.request({
    method:"wallet_switchEthereumChain",
-   params:[{chainId:CONFIG.CHAIN_ID}]
+   params:[{chainId:CASTER.chainId}]
   });
   return true;
  }catch(e){
@@ -1470,24 +1239,24 @@ async function switchNetwork(){
     await eth.request({
      method:"wallet_addEthereumChain",
      params:[{
-      chainId:CONFIG.CHAIN_ID,
+      chainId:CASTER.chainId,
       chainName:"BNB Smart Chain",
       nativeCurrency:{
        name:"BNB",
        symbol:"BNB",
        decimals:18
       },
-      rpcUrls:[CONFIG.RPC],
-      blockExplorerUrls:[CONFIG.EXPLORER]
+      rpcUrls:[CASTER.rpc],
+      blockExplorerUrls:[CASTER.explorer]
      }]
     });
     return true;
    }catch(err){
-    notify("Network configuration was not approved.");
+    toast("Network setup was not approved.");
     return false;
    }
   }
-  notify("Please switch your wallet to BNB Smart Chain.");
+  toast("Please switch to BNB Smart Chain.");
   return false;
  }
 }
@@ -1497,8 +1266,7 @@ async function connectWallet(){
  if(!eth)return;
 
  try{
-  const switched=await switchNetwork();
-  if(!switched)return;
+  if(!await switchBSC())return;
 
   const accounts=await eth.request({
    method:"eth_requestAccounts"
@@ -1506,21 +1274,19 @@ async function connectWallet(){
 
   if(accounts.length){
    walletAddress=accounts[0];
-   updateWalletUI();
-   notify("Wallet connected: "+shortAddress(walletAddress));
+   updateWallet();
+   toast("Wallet connected: "+shortAddress(walletAddress));
   }
  }catch(e){
-  if(e.code===4001){
-   notify("Wallet connection was rejected.");
-  }else{
-   notify("Unable to connect wallet. Please try again.");
-  }
+  toast(e.code===4001
+   ?"Wallet connection rejected."
+   :"Wallet connection failed.");
  }
 }
 
-function updateWalletUI(){
- document.querySelectorAll(".wallet-button").forEach(button=>{
-  button.textContent=walletAddress
+function updateWallet(){
+ document.querySelectorAll(".wallet-button").forEach(btn=>{
+  btn.textContent=walletAddress
    ?shortAddress(walletAddress)
    :"Connect Wallet";
  });
@@ -1531,41 +1297,38 @@ async function addToken(){
  if(!eth)return;
 
  try{
-  const switched=await switchNetwork();
-  if(!switched)return;
+  if(!await switchBSC())return;
 
-  if(tokenDecimals===null){
-   await loadTokenInfo();
-  }
+  if(decimals===null)await loadContractData();
 
-  if(tokenDecimals===null){
-   notify("Unable to verify token decimals. Please try again.");
+  if(decimals===null){
+   toast("Unable to verify token decimals.");
    return;
   }
 
-  const success=await eth.request({
+  const result=await eth.request({
    method:"wallet_watchAsset",
    params:{
     type:"ERC20",
     options:{
-     address:CONFIG.CONTRACT,
-     symbol:tokenSymbol,
-     decimals:tokenDecimals,
-     image:CONFIG.LOGO
+     address:CASTER.contract,
+     symbol:actualSymbol,
+     decimals:decimals,
+     image:CASTER.logo
     }
    }
   });
 
-  notify(success
-   ?"CASTER token was added to your wallet."
-   :"Token addition was not approved."
-  );
+  toast(result?"CASTER added to wallet.":"Token addition cancelled.");
  }catch(e){
-  notify("Unable to add token. Check your wallet and network.");
+  toast("Unable to add token to wallet.");
  }
 }
 
-function formatCompact(value){
+/* =====================================
+   CONTRACT DATA
+===================================== */
+function compact(value){
  const n=Number(value);
  if(!Number.isFinite(n))return "—";
  return Intl.NumberFormat("en-US",{
@@ -1574,10 +1337,10 @@ function formatCompact(value){
  }).format(n);
 }
 
-function formatUSD(value){
+function usd(value){
  const n=Number(value);
  if(!Number.isFinite(n))return "—";
- return new Intl.NumberFormat("en-US",{
+ return Intl.NumberFormat("en-US",{
   style:"currency",
   currency:"USD",
   notation:n>=1000?"compact":"standard",
@@ -1585,78 +1348,69 @@ function formatUSD(value){
  }).format(n);
 }
 
-async function loadTokenInfo(){
- if(typeof ethers==="undefined"){
-  $("specSupply").textContent="Provider unavailable";
-  return;
- }
- try{
-  const provider=new ethers.JsonRpcProvider(CONFIG.RPC);
-  const contract=new ethers.Contract(
-   CONFIG.CONTRACT,
-   CONTRACT_ABI,
-   provider
-  );
+async function loadContractData(){
+ if(typeof ethers==="undefined")return;
 
-  const [name,symbol,decimals,supply]=await Promise.all([
-   contract.name(),
-   contract.symbol(),
-   contract.decimals(),
-   contract.totalSupply()
+ try{
+  const provider=new ethers.JsonRpcProvider(CASTER.rpc);
+  const token=new ethers.Contract(CASTER.contract,ABI,provider);
+
+  const [name,symbol,dec,total]=await Promise.all([
+   token.name(),
+   token.symbol(),
+   token.decimals(),
+   token.totalSupply()
   ]);
 
-  tokenName=name;
-  tokenSymbol=symbol;
-  tokenDecimals=Number(decimals);
+  decimals=Number(dec);
+  actualSymbol=symbol;
 
-  const formatted=ethers.formatUnits(supply,tokenDecimals);
-  const human=Number(formatted);
-  const display=Number.isFinite(human)
-   ?formatCompact(human)
+  const formatted=ethers.formatUnits(total,decimals);
+  const amount=Number(formatted);
+
+  $("supply").textContent=compact(amount);
+  $("tokenSupply").textContent=Number.isFinite(amount)
+   ?amount.toLocaleString("en-US",{maximumFractionDigits:4})
    :formatted;
-
-  $("totalSupply").textContent=display;
-  $("specSupply").textContent=
-   Number.isFinite(human)
-    ?human.toLocaleString("en-US",{maximumFractionDigits:4})
-    :formatted;
-  $("specName").textContent=name;
-  $("specSymbol").textContent=symbol;
-  $("chainSymbol").textContent=symbol;
-  $("specDecimals").textContent=tokenDecimals;
-  $("decimals").textContent=tokenDecimals;
+  $("tokenName").textContent=name;
+  $("tokenSymbol").textContent=symbol;
+  $("symbol").textContent=symbol;
+  $("decimals").textContent=decimals;
+  $("tokenDecimals").textContent=decimals;
 
  }catch(e){
-  console.warn("Token data unavailable",e);
-  $("totalSupply").textContent="Unavailable";
-  $("specSupply").textContent="Unavailable";
-  $("specDecimals").textContent="Unavailable";
-  $("decimals").textContent="Unavailable";
+  console.warn("Contract read failed",e);
+  $("supply").textContent="Unavailable";
+  $("tokenSupply").textContent="Unavailable";
+  $("tokenDecimals").textContent="Unavailable";
  }
 }
 
-async function loadMarketData(){
+/* =====================================
+   MARKET DATA
+===================================== */
+async function loadMarket(){
  try{
   const response=await fetch(
-   CONFIG.DEX_API+CONFIG.CONTRACT,
+   "https://api.dexscreener.com/latest/dex/tokens/"+CASTER.contract,
    {cache:"no-store"}
   );
 
-  if(!response.ok)throw new Error("Market service unavailable");
+  if(!response.ok)throw new Error("Market API unavailable");
 
   const data=await response.json();
+
   const pairs=(data.pairs||[]).filter(p=>
    String(p.chainId).toLowerCase()==="bsc" &&
    (
-    p.baseToken?.address?.toLowerCase()===CONFIG.CONTRACT.toLowerCase() ||
-    p.quoteToken?.address?.toLowerCase()===CONFIG.CONTRACT.toLowerCase()
+    p.baseToken?.address?.toLowerCase()===CASTER.contract.toLowerCase() ||
+    p.quoteToken?.address?.toLowerCase()===CASTER.contract.toLowerCase()
    )
   );
 
   if(!pairs.length){
-   $("priceStatus").textContent="● No pool";
-   $("priceStatus").style.color="#aaa";
-   $("liquidityStatus").textContent="No supported pool";
+   $("priceChange").textContent="No supported liquidity pool";
+   $("liquidity").textContent="No supported pool";
    return;
   }
 
@@ -1664,173 +1418,101 @@ async function loadMarketData(){
    Number(b.liquidity?.usd||0)-Number(a.liquidity?.usd||0)
   );
 
-  currentPair=pairs[0];
-  const pair=currentPair;
-  const isBase=pair.baseToken?.address?.toLowerCase()===CONFIG.CONTRACT.toLowerCase();
-  let price=Number(pair.priceUsd);
+  const pair=pairs[0];
+  const isBase=pair.baseToken?.address?.toLowerCase()===CASTER.contract.toLowerCase();
 
-  // DexScreener's priceUsd is for the base token.
-  // For a quote-side CASTER, do not report it as CASTER price.
-  if(!isBase){
-   price=NaN;
+  if(isBase){
+   $("price").textContent=usd(pair.priceUsd);
+   $("marketCap").textContent=pair.marketCap!=null?usd(pair.marketCap):"—";
+
+   if(pair.priceChange?.h24!=null){
+    const change=Number(pair.priceChange.h24);
+    $("priceChange").textContent=(change>=0?"+":"")+change.toFixed(2)+"% (24H)";
+    $("priceChange").style.color=change>=0?"#54dfa2":"#ff536c";
+   }
+  }else{
+   $("priceChange").textContent="Token is quote-side in selected pool";
   }
 
-  $("tokenPrice").textContent=
-   Number.isFinite(price)?formatUSD(price):"—";
-
-  $("marketCap").textContent=
-   isBase && pair.marketCap!=null
-    ?formatUSD(pair.marketCap)
-    :"—";
-
-  $("volume24h").textContent=
-   pair.volume?.h24!=null
-    ?formatUSD(pair.volume.h24)
-    :"—";
-
-  $("liquidityStatus").textContent=
-   pair.liquidity?.usd!=null
-    ?formatUSD(pair.liquidity.usd)
-    :"Unavailable";
-
-  $("priceStatus").textContent=isBase?"● Live":"● Pair found";
-  $("priceStatus").style.color="#54dfa2";
-
-  if(isBase && pair.priceChange?.h24!=null){
-   const n=Number(pair.priceChange.h24);
-   $("priceChange").textContent=
-    (n>=0?"+":"")+n.toFixed(2)+"% (24H)";
-   $("priceChange").style.color=n>=0?"#54dfa2":"#ff536c";
-  }
-
-  const chartURL=`https://dexscreener.com/bsc/${pair.pairAddress}`;
-  $("chartExternal").href=chartURL;
+  $("volume").textContent=pair.volume?.h24!=null?usd(pair.volume.h24):"—";
+  $("liquidity").textContent=pair.liquidity?.usd!=null?usd(pair.liquidity.usd):"Unavailable";
 
   if(pair.pairAddress){
+   const chartURL="https://dexscreener.com/bsc/"+pair.pairAddress;
+   $("chartLink").href=chartURL;
+
    const iframe=document.createElement("iframe");
-   const params=new URLSearchParams({
-    embed:"1",
-    theme:"dark",
-    trades:"0",
-    info:"0"
-   });
-   iframe.src=chartURL+"?"+params.toString();
-   iframe.title="CASTER market chart";
+   iframe.src=chartURL+"?embed=1&theme=dark&trades=0&info=0";
+   iframe.title="CASTER Live Chart";
    iframe.loading="lazy";
-   iframe.referrerPolicy="no-referrer";
-   const container=$("chartContainer");
-   container.replaceChildren(iframe);
+
+   $("chartFrame").replaceChildren(iframe);
   }
  }catch(e){
   console.warn("Market data unavailable",e);
-  $("priceStatus").textContent="● Offline";
-  $("priceStatus").style.color="#aaa";
-  $("liquidityStatus").textContent="Unavailable";
+  $("priceChange").textContent="Market data unavailable";
+  $("liquidity").textContent="Unavailable";
  }
 }
 
+/* =====================================
+   SWAP
+===================================== */
 function openSwap(){
- const raw=$("swapAmount").value;
- const amount=Number(raw);
+ const amount=Number($("swapAmount").value);
 
  if(!Number.isFinite(amount)||amount<=0){
-  notify("Enter an amount greater than zero.");
+  toast("Please enter a valid BNB amount.");
   return;
  }
 
- const url=new URL(CONFIG.DEX);
+ const url=new URL(CASTER.dex);
  url.searchParams.set("chain","bsc");
  url.searchParams.set("inputCurrency","BNB");
- url.searchParams.set("outputCurrency",CONFIG.CONTRACT);
+ url.searchParams.set("outputCurrency",CASTER.contract);
 
- // PancakeSwap independently calculates the quote and
- // requires user confirmation before any transaction.
  window.open(url.toString(),"_blank","noopener,noreferrer");
 }
 
-/* ==========================================
-   MOBILE NAVIGATION
-========================================== */
-const menuBtn=$("menuBtn");
-const navLinks=$("navLinks");
+/* =====================================
+   MOBILE MENU
+===================================== */
+const menu=$("menuToggle");
+const links=$("navLinks");
 
-menuBtn.addEventListener("click",()=>{
- const open=navLinks.classList.toggle("open");
- menuBtn.textContent=open?"✕":"☰";
- menuBtn.setAttribute("aria-expanded",String(open));
+menu.addEventListener("click",()=>{
+ const open=links.classList.toggle("open");
+ menu.textContent=open?"✕":"☰";
+ menu.setAttribute("aria-expanded",String(open));
 });
 
-navLinks.querySelectorAll("a").forEach(link=>{
- link.addEventListener("click",()=>{
-  navLinks.classList.remove("open");
-  menuBtn.textContent="☰";
-  menuBtn.setAttribute("aria-expanded","false");
+links.querySelectorAll("a").forEach(a=>{
+ a.addEventListener("click",()=>{
+  links.classList.remove("open");
+  menu.textContent="☰";
+  menu.setAttribute("aria-expanded","false");
  });
 });
 
-/* ==========================================
-   SCROLL ANIMATIONS
-========================================== */
-if("IntersectionObserver" in window){
- const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-   if(entry.isIntersecting){
-    entry.target.classList.add("visible");
-    observer.unobserve(entry.target);
-   }
-  });
- },{threshold:.1});
-
- document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
-}else{
- document.querySelectorAll(".reveal").forEach(el=>el.classList.add("visible"));
-}
-
-/* ==========================================
-   SUBTLE 3D INTERACTION
-========================================== */
-const scene=$("coinScene");
-const coin=$("coinFloat");
-
-if(window.matchMedia("(hover:hover) and (pointer:fine)").matches &&
-   !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
- scene.addEventListener("mousemove",e=>{
-  const r=scene.getBoundingClientRect();
-  const x=(e.clientX-r.left)/r.width-.5;
-  const y=(e.clientY-r.top)/r.height-.5;
-  coin.style.animationPlayState="paused";
-  coin.style.transform=
-   `rotateY(${x*35}deg) rotateX(${-y*28}deg)`;
- });
- scene.addEventListener("mouseleave",()=>{
-  coin.style.transform="";
-  coin.style.animationPlayState="running";
- });
-}
-
-/* ==========================================
-   WALLET LISTENERS
-========================================== */
+/* =====================================
+   WALLET EVENTS
+===================================== */
 if(window.ethereum){
  window.ethereum.on?.("accountsChanged",accounts=>{
   walletAddress=accounts[0]||null;
-  updateWalletUI();
- });
- window.ethereum.on?.("chainChanged",()=>{
-  // Refresh state to reflect wallet's selected network.
-  updateWalletUI();
+  updateWallet();
  });
 }
 
-/* ==========================================
-   INITIALIZATION
-========================================== */
-setupLinks();
-loadTokenInfo();
-loadMarketData();
-setInterval(loadMarketData,60000);
-</script>
+/* =====================================
+   INITIALIZE
+===================================== */
+setup();
+processLogo();
+loadContractData();
+loadMarket();
+setInterval(loadMarket,60000);
 
+</script>
 </body>
 </html>
-
